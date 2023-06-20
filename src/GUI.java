@@ -2,9 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class GUI extends JFrame implements ActionListener {
 
@@ -43,7 +40,7 @@ public class GUI extends JFrame implements ActionListener {
 
         //Icon
         JLabel sunIconLabel=new JLabel();
-        ImageIcon sunIcon=new ImageIcon("C:\\임베디드웹과정임시공유폴더\\DaeguWeather\\src\\sun.png");
+        ImageIcon sunIcon=new ImageIcon("sun.png");
 
         Image sunIconImage = sunIcon.getImage();
         Image rescaleImage=sunIconImage.getScaledInstance(100,100,Image.SCALE_SMOOTH);
@@ -53,6 +50,8 @@ public class GUI extends JFrame implements ActionListener {
         sunIconLabel.setIcon(rescaleIcon);
         sunIconLabel.setBounds(20,20,200,200);
         panel.add(sunIconLabel);
+
+        //
 
         add(sunIconLabel);
         add(panel);

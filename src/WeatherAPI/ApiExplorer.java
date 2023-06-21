@@ -1,5 +1,4 @@
 package WeatherAPI;
-
 import com.mysql.cj.xdevapi.JsonParser;
 import netscape.javascript.JSObject;
 import org.json.simple.JSONArray;
@@ -17,27 +16,25 @@ public class ApiExplorer {
     public static void main(String[] args) throws Exception {
 
 
-        String serviceKey="M7UdcUfNMFBu8D3ng0rZrilA8oNgv1Sfr3kT%2BdeJphKw5BlLPTksBL2suXd1hMK5hQ5XMr5hCsgsFDNzfQ7UUg%3D%3D";
-        String pageNo="3";
-        String numOfRows="100";
-        String dataType="json";
-        String base_date="20230620";
-        String base_time="1800";
-        String nx="89";
-        String ny="90";
-
-
+        String serviceKey = "M7UdcUfNMFBu8D3ng0rZrilA8oNgv1Sfr3kT%2BdeJphKw5BlLPTksBL2suXd1hMK5hQ5XMr5hCsgsFDNzfQ7UUg%3D%3D";
+        String pageNo = "1";
+        String numOfRows = "100";
+        String dataType = "json";
+        String base_date = "20230621";
+        String base_time = "1800";
+        String nx = "79";
+        String ny = "123";
 
 
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + serviceKey); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode(pageNo, "UTF-8")); /*페이지번호*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode(numOfRows, "UTF-8")); /*한 페이지 결과 수*/
-        urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode(dataType, "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/
-        urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode(base_date, "UTF-8")); /*‘21년 6월 28일 발표*/
-        urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode(base_time, "UTF-8")); /*06시 발표(정시단위) */
-        urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode(nx, "UTF-8")); /*예보지점의 X 좌표값*/
-        urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode(ny, "UTF-8")); /*예보지점의 Y 좌표값*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + serviceKey); /*Service Key*/
+        urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(pageNo, "UTF-8")); /*페이지번호*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode(numOfRows, "UTF-8")); /*한 페이지 결과 수*/
+        urlBuilder.append("&" + URLEncoder.encode("dataType", "UTF-8") + "=" + URLEncoder.encode(dataType, "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/
+        urlBuilder.append("&" + URLEncoder.encode("base_date", "UTF-8") + "=" + URLEncoder.encode(base_date, "UTF-8")); /*‘21년 6월 28일 발표*/
+        urlBuilder.append("&" + URLEncoder.encode("base_time", "UTF-8") + "=" + URLEncoder.encode(base_time, "UTF-8")); /*06시 발표(정시단위) */
+        urlBuilder.append("&" + URLEncoder.encode("nx", "UTF-8") + "=" + URLEncoder.encode(nx, "UTF-8")); /*예보지점의 X 좌표값*/
+        urlBuilder.append("&" + URLEncoder.encode("ny", "UTF-8") + "=" + URLEncoder.encode(ny, "UTF-8")); /*예보지점의 Y 좌표값*/
 
 
         URL url = new URL(urlBuilder.toString());
@@ -46,7 +43,7 @@ public class ApiExplorer {
         conn.setRequestProperty("Content-type", "application/json");
         System.out.println("Response code: " + conn.getResponseCode());
         BufferedReader rd;
-        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         } else {
             rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
@@ -58,27 +55,72 @@ public class ApiExplorer {
         }
         rd.close();
         conn.disconnect();
-        String result=sb.toString();
-//        System.out.println(result);
+        String result = sb.toString();
+        System.out.println(result);
 
 
         // Json parser를 만들어 만들어진 문자열 데이터를 객체화
         JSONParser parser = new JSONParser();
         JSONObject obj = (JSONObject) parser.parse(result);
+
         // response 키를 가지고 데이터를 파싱
         JSONObject parse_response = (JSONObject) obj.get("response");
+
         // response 로 부터 body 찾기
         JSONObject parse_body = (JSONObject) parse_response.get("body");
+
         // body 로 부터 items 찾기
         JSONObject parse_items = (JSONObject) parse_body.get("items");
         JSONArray parse_item = (JSONArray) parse_items.get("item");
         //JSONObject item = (JSONObject) parse_item.get("item");
 
-        System.out.println(result);
-        for(int i=0;i<parse_item.size();i++) {
-            System.out.println(parse_item.get(i));
-        }
 
+        //기상정보 출력
+//        System.out.println(result);
+        for (int i = 0; i < parse_item.size(); i++) {
+//            System.out.println(parse_item.get(i));
+            JSONObject item = (JSONObject) parse_item.get(i);
+            String category = (String) item.get("category");
+            String obsrValue = (String) item.get("obsrValue");
+
+            if (category.equals("PTY")) {
+
+                //강수상태 출력
+                System.out.print("강수상태: ");
+                if (obsrValue.equals("0"))
+                    System.out.println("강수X");
+                else if (obsrValue.equals("1"))
+                    System.out.println("비");
+                else if (obsrValue.equals("2"))
+                    System.out.println("비/눈");
+                else if (obsrValue.equals("3"))
+                    System.out.println("눈");
+                else if (obsrValue.equals("5"))
+                    System.out.println("빗방울");
+                else if (obsrValue.equals("6"))
+                    System.out.println("빗방울/눈날림");
+                else if (obsrValue.equals("7"))
+                    System.out.println("눈날림");
+            }
+            //1시간 강수량
+            if (category.equals("RN1")) {
+
+
+                System.out.print("1시간 강수량: ");
+                System.out.println(obsrValue + " mm");
+            }
+            //습도 출력
+            if (category.equals("REH")) {
+
+                System.out.print("습도");
+                System.out.println(obsrValue + " %");
+            }
+            //기온 출력
+            if (category.equals("T1H")) {
+
+                System.out.print("기온");
+                System.out.println(obsrValue + " ℃");
+            }
 
         /*
          * 항목값	항목명	단위
@@ -103,5 +145,6 @@ public class ApiExplorer {
          * WSD	풍속	1
          */
 
+        }
     }
 }

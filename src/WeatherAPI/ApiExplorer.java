@@ -25,7 +25,7 @@ public class ApiExplorer {
         String base_time="1800";
         String nx="89";
         String ny="90";
-        String category;
+
 
 
 
@@ -59,9 +59,9 @@ public class ApiExplorer {
         rd.close();
         conn.disconnect();
         String result=sb.toString();
-        System.out.println(result);
+//        System.out.println(result);
 
-/*
+
         // Json parser를 만들어 만들어진 문자열 데이터를 객체화
         JSONParser parser = new JSONParser();
         JSONObject obj = (JSONObject) parser.parse(result);
@@ -71,45 +71,28 @@ public class ApiExplorer {
         JSONObject parse_body = (JSONObject) parse_response.get("body");
         // body 로 부터 items 찾기
         JSONObject parse_items = (JSONObject) parse_body.get("items");
-
-        // items로 부터 itemlist 를 받기
         JSONArray parse_item = (JSONArray) parse_items.get("item");
-        String category;
-        JSONObject weather; // parse_item은 배열형태이기 때문에 하나씩 데이터를 하나씩 가져올때 사용
-        // 카테고리와 값만 받아오기
-        String day="";
-        String time="";
-        for(int i = 0 ; i < parse_item.size(); i++) {
-            weather = (JSONObject) parse_item.get(i);
-            Object fcstValue = weather.get("fcstValue");
-            Object fcstDate = weather.get("fcstDate");
-            Object fcstTime = weather.get("fcstTime");
-            //double형으로 받고싶으면 아래내용 주석 해제
-            //double fcstValue = Double.parseDouble(weather.get("fcstValue").toString());
-            category = (String)weather.get("category");
-            // 출력
-            if(!day.equals(fcstDate.toString())) {
-                day=fcstDate.toString();
-            }
-            if(!time.equals(fcstTime.toString())) {
-                time=fcstTime.toString();
-                System.out.println(day+"  "+time);
-            }
-            System.out.print("\tcategory : "+ category);
-            System.out.print(", fcst_Value : "+ fcstValue);
-            System.out.print(", fcstDate : "+ fcstDate);
-            System.out.println(", fcstTime : "+ fcstTime);
+        //JSONObject item = (JSONObject) parse_item.get("item");
+
+        System.out.println(result);
+        for(int i=0;i<parse_item.size();i++) {
+            System.out.println(parse_item.get(i));
         }
-*/
+
 
         /*
          * 항목값	항목명	단위
          * POP	강수확률	 %
+         * RN1  1시간 강수량
          * PTY	강수형태	코드값
+         * 강수형태(PTY) 코드 : (초단기) 없음(0), 비(1), 비/눈(2), 눈(3), 빗방울(5), 빗방울눈날림(6), 눈날림(7)
+                      (단기) 없음(0), 비(1), 비/눈(2), 눈(3), 소나기(4)
          * R06	6시간 강수량	범주 (1 mm)
+         * T1H  기온
          * REH	습도	 %
          * S06	6시간 신적설	범주(1 cm)
          * SKY	하늘상태	코드값
+         * 하늘상태(SKY) 코드 : 맑음(1), 구름많음(3), 흐림(4)
          * T3H	3시간 기온	 ℃
          * TMN	아침 최저기온	 ℃
          * TMX	낮 최고기온	 ℃
@@ -118,7 +101,6 @@ public class ApiExplorer {
          * WAV	파고	 M
          * VEC	풍향	 m/s
          * WSD	풍속	1
-
          */
 
     }

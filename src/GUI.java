@@ -5,30 +5,6 @@ import java.awt.event.ActionListener;
 
 public class GUI extends JFrame implements ActionListener {
 
-    JButton Jung;
-    JButton Dong;
-    JButton Seo;
-    JButton Nam;
-    JButton Buk;
-    JButton Dalseo;
-    JButton Dalseong;
-    JButton Suseong;
-
-
-
-
-
-
-
-    //연결정보 저장용 변수
-//    String id="root";
-//    String pw="1234";
-//    String url="jdbc:mysql://localhost:3306/임시";
-
-    //jdbc 참조변수
-//    Connection conn=null; //DB연결용 참조변수
-//    PreparedStatement pstmt=null; //SQL쿼리 전송용 참조변수
-//    ResultSet rs=null; //SQL 쿼리 결과(SELECT결과) 수신용 참조변수
 
     GUI(){
         super("대구 날씨");
@@ -40,23 +16,21 @@ public class GUI extends JFrame implements ActionListener {
 
         //Icon
         JLabel sunIconLabel=new JLabel();
-        ImageIcon sunIcon=new ImageIcon("sun.png");
+        ImageIcon sunIcon=new ImageIcon("sun.png"); //아이콘 경로
 
         Image sunIconImage = sunIcon.getImage();
-        Image rescaleImage=sunIconImage.getScaledInstance(100,100,Image.SCALE_SMOOTH);
+        Image rescaleImage=sunIconImage.getScaledInstance(100,100,Image.SCALE_SMOOTH);  //아이콘 크기 재설정
         ImageIcon rescaleIcon =new ImageIcon(rescaleImage);
 
 
         sunIconLabel.setIcon(rescaleIcon);
-        sunIconLabel.setBounds(20,20,200,200);
+        sunIconLabel.setBounds(20,20,200,200);  //창에서 아이콘 위치
         panel.add(sunIconLabel);
 
         //
 
         add(sunIconLabel);
         add(panel);
-
-
 
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -10,18 +10,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.io.BufferedReader;
-import java.io.IOException;
+
 
 public class ApiExplorer {
     public static void main(String[] args) throws Exception {
 
+        DateNow date=new DateNow();
+        TimeNow time=new TimeNow();
 
         String serviceKey = "M7UdcUfNMFBu8D3ng0rZrilA8oNgv1Sfr3kT%2BdeJphKw5BlLPTksBL2suXd1hMK5hQ5XMr5hCsgsFDNzfQ7UUg%3D%3D";
         String pageNo = "1";
-        String numOfRows = "100";
+        String numOfRows = "10";
         String dataType = "json";
-        String base_date = "20230621";
-        String base_time = "1800";
+        String base_date = date.DateNow();
+        String base_time = time.TimeNow();
         String nx = "79";
         String ny = "123";
 
@@ -41,7 +43,7 @@ public class ApiExplorer {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
-        System.out.println("Response code: " + conn.getResponseCode());
+//        System.out.println("Response code: " + conn.getResponseCode());
         BufferedReader rd;
         if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -56,7 +58,7 @@ public class ApiExplorer {
         rd.close();
         conn.disconnect();
         String result = sb.toString();
-        System.out.println(result);
+//        System.out.println(result);
 
 
         // Json parser를 만들어 만들어진 문자열 데이터를 객체화

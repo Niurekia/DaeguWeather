@@ -1,31 +1,36 @@
 package WeatherAPI;
-import com.mysql.cj.xdevapi.JsonParser;
-import netscape.javascript.JSObject;
+
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.io.BufferedReader;
 
 
 public class ApiExplorer {
-    public static void main(String[] args) throws Exception {
+    DateNow date = new DateNow();
+    TimeNow time = new TimeNow();
 
-        DateNow date=new DateNow();
-        TimeNow time=new TimeNow();
+    String serviceKey = "M7UdcUfNMFBu8D3ng0rZrilA8oNgv1Sfr3kT%2BdeJphKw5BlLPTksBL2suXd1hMK5hQ5XMr5hCsgsFDNzfQ7UUg%3D%3D";
+    String pageNo = "1";
+    String numOfRows = "10";
+    String dataType = "json";
+    String base_date = date.DateNow();
+    String base_time = time.TimeNow();
+    String nx = "79";
+    String ny = "123";
 
-        String serviceKey = "M7UdcUfNMFBu8D3ng0rZrilA8oNgv1Sfr3kT%2BdeJphKw5BlLPTksBL2suXd1hMK5hQ5XMr5hCsgsFDNzfQ7UUg%3D%3D";
-        String pageNo = "1";
-        String numOfRows = "10";
-        String dataType = "json";
-        String base_date = date.DateNow();
-        String base_time = time.TimeNow();
-        String nx = "79";
-        String ny = "123";
+    String PTY;
+    String RN1;
+    String REH;
+    String T1H;
+
+    public void ApiExplorer() throws Exception {
+
 
 
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst"); /*URL*/
@@ -77,8 +82,6 @@ public class ApiExplorer {
         //JSONObject item = (JSONObject) parse_item.get("item");
 
 
-        //기상정보 출력
-//        System.out.println(result);
         for (int i = 0; i < parse_item.size(); i++) {
 //            System.out.println(parse_item.get(i));
             JSONObject item = (JSONObject) parse_item.get(i);
@@ -88,43 +91,44 @@ public class ApiExplorer {
             if (category.equals("PTY")) {
 
                 //강수상태 출력
-                System.out.print("강수상태: ");
+
                 if (obsrValue.equals("0"))
-                    System.out.println("강수X");
+                    PTY = obsrValue;
                 else if (obsrValue.equals("1"))
-                    System.out.println("비");
+                    PTY = obsrValue;
                 else if (obsrValue.equals("2"))
-                    System.out.println("비/눈");
+                    PTY = obsrValue;
                 else if (obsrValue.equals("3"))
-                    System.out.println("눈");
+                    PTY = obsrValue;
                 else if (obsrValue.equals("5"))
-                    System.out.println("빗방울");
+                    PTY = obsrValue;
                 else if (obsrValue.equals("6"))
-                    System.out.println("빗방울/눈날림");
+                    PTY = obsrValue;
                 else if (obsrValue.equals("7"))
-                    System.out.println("눈날림");
+                    PTY = obsrValue;
             }
             //1시간 강수량
             if (category.equals("RN1")) {
-
-
-                System.out.print("1시간 강수량: ");
-                System.out.println(obsrValue + " mm");
+                RN1 = obsrValue;
             }
+
             //습도 출력
             if (category.equals("REH")) {
-
-                System.out.print("습도");
-                System.out.println(obsrValue + " %");
+                REH = obsrValue;
             }
             //기온 출력
             if (category.equals("T1H")) {
-
-                System.out.print("기온");
-                System.out.println(obsrValue + " ℃");
+                T1H = obsrValue;
             }
 
-        /*
+        }
+
+
+    }
+
+
+}
+/*
          * 항목값	항목명	단위
          * POP	강수확률	 %
          * RN1  1시간 강수량
@@ -146,7 +150,3 @@ public class ApiExplorer {
          * VEC	풍향	 m/s
          * WSD	풍속	1
          */
-
-        }
-    }
-}

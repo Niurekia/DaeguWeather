@@ -16,6 +16,7 @@ public class GUI extends JFrame implements ActionListener {
 
         //Icon
         JLabel sunIconLabel=new JLabel();
+        //if(val==1)
         ImageIcon sunIcon=new ImageIcon("sun.png"); //아이콘 경로
 
         Image sunIconImage = sunIcon.getImage();
